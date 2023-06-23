@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom"
+import { Button } from "../../Components/Button"
+import { Header } from "../../Components/Header"
 
 const Home = () =>{
     return(
         <>
-            <h1>Home</h1>
-            <Link to="/login">Fazer Login</Link>
+            <Header/>
         </>
     )
 }
