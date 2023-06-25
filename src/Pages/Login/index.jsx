@@ -9,7 +9,7 @@ import {Column, Container, CriarText, EsqueciText, Row, SubtitleLogin, Title, Ti
 const Login = () =>{
     const navigate = useNavigate();
     const handleClickSignIn = () =>{
-        navigate('/feed')
+        navigate('/clone-dio/feed')
     }
     
     return(
