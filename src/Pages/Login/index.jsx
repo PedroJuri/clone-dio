@@ -6,7 +6,7 @@ import {Input} from '../../Components/Input/index'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup';
-
+import { api } from '../../Services/api'
 import {Column, Container, CriarText, EsqueciText, Row, SubtitleLogin, Title, TitleLogin, Wrapper} from './styles'
 
 const schema = yup.object({
@@ -17,16 +17,23 @@ const schema = yup.object({
 const Login = () =>{
     const navigate = useNavigate();
 
-    const {control, handleSubmit, formState: {errors, isValid}} = useForm({
+    const {control, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(schema),
         mode:'onChange'
     })
-    console.log(isValid, errors)
 
-    const onSubmit = data => console.log(data)
-
-    const handleClickSignIn = () =>{
-        navigate('/clone-dio/feed')
+    const onSubmit = async formData => {
+        try{
+            const { data } = await api.get(`users?email=${formData.email}&senha=${formData.password}`);
+            if (data.length === 1){
+                navigate('/clone-dio/feed')
+            }else{
+                alert('Email ou senha, não correspondem')
+            }
+        }
+        catch{
+            alert('Houve algum erro, tente novamente')
+        }
     }
     
     return(
