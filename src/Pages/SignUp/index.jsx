@@ -1,44 +1,33 @@
 import { useNavigate } from 'react-router-dom'
-import {MdEmail, MdLock} from 'react-icons/md'
+import {MdEmail, MdLock, MdAccountCircle} from 'react-icons/md'
 import { Button } from "../../Components/Button"
 import { Header } from "../../Components/Header"
 import {Input} from '../../Components/Input/index'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup';
-import { api } from '../../Services/api'
-import {Column, Container, CriarText, EsqueciText, Row, SubtitleLogin, Title, TitleLogin, Wrapper} from './styles'
+import { useForm } from 'react-hook-form'
+import {TextoAlt, Column, Container, CriarText, SubtitleLogin, Title, TitleLogin, Wrapper, Login} from './styles'
 
 const schema = yup.object({
     email: yup.string().email('Email não é válido').required('Campo obrigatório'),
     password: yup.string().min(3, 'No mínimo 3 caracteres').required('Campo Obrigatório')
 }).required();
 
-const Login = () =>{
+const SignUp = () =>{
     const navigate = useNavigate();
-
-    const handleClickSignUp = () =>{
-        navigate('/clone-dio/SignUp')
+    
+    const handleClickSignIn = () =>{
+        navigate('/clone-dio/login')
     }
 
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const handleClickSignUp = () =>{
+        navigate('/clone-dio/feed')
+    }
+
+    const {control, formState: {errors}} = useForm({
         resolver: yupResolver(schema),
         mode:'onChange'
     })
-
-    const onSubmit = async formData => {
-        try{
-            const { data } = await api.get(`users?email=${formData.email}&senha=${formData.password}`);
-            if (data.length === 1){
-                navigate('/clone-dio/feed')
-            }else{
-                alert('Email ou senha, não correspondem')
-            }
-        }
-        catch{
-            alert('Houve algum erro, tente novamente')
-        }
-    }
     
     return(
         <>
@@ -51,17 +40,19 @@ const Login = () =>{
                 </Column>
                 <Column>
                     <Wrapper>
-                        <TitleLogin>Faça seu cadastro.</TitleLogin>
-                        <SubtitleLogin>Faça seu login e make the change._</SubtitleLogin>
-                        <form onSubmit={handleSubmit(onSubmit)}>
+                        <TitleLogin>Comece agora grátis</TitleLogin>
+                        <SubtitleLogin>Crie sua conta e make the change._</SubtitleLogin>
+                        <form>
+                            <Input name="name" control={control} placeholder="Nome completo" type="text" leftIcon={<MdAccountCircle/>}/>
                             <Input name="email" errorMessage={errors?.email?.message} control={control} placeholder="Email" type="email" leftIcon={<MdEmail/>}/>
                             <Input name="password" errorMessage={errors?.password?.message} control={control} placeholder="Senha" type="password" leftIcon={<MdLock/>}/>
-                            <Button title='Entrar' variant="secondary" type="submit"/>
+                            <Button title='Criar minha conta' variant="secondary" onClick={handleClickSignUp}/>
                         </form>
-                        <Row>
-                            <EsqueciText>Esqueci minha senha</EsqueciText>
-                            <CriarText onClick={handleClickSignUp}>Criar Conta</CriarText>
-                        </Row>
+                        <Column>
+                            <TextoAlt>Ao clicar em "criar minha conta grátis", declaro que aceito as políticas de Privacidade e os Termos de Uso da DIO.</TextoAlt>
+                            <CriarText className='texto'>Já tenho conta</CriarText>
+                            <Login onClick={handleClickSignIn}>Fazer login</Login>
+                        </Column>
                     </Wrapper>
                 </Column>
             </Container>
@@ -69,4 +60,4 @@ const Login = () =>{
     )
 }
 
-export {Login}
+export {SignUp}
