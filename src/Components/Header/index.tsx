@@ -1,9 +1,10 @@
 import React from 'react'
 import logo from '../../Assets/logo-dio.png'
 import { Button } from '../Button'
+import { IHeader } from './types'
 import { Container, Row, Input, BuscarInputContainer, Menu, MenuRight, Wrapper, UserPicture } from './styles'
 
-const Header = ({autenticado}) => {
+const Header = ({autenticado}: IHeader) => {
   return (
     <Wrapper>
         <Container>
