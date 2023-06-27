@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import logo from '../../Assets/logo-dio.png'
 import { Button } from '../Button'
-import { IHeader } from './types'
 import { Container, Row, Input, BuscarInputContainer, Menu, MenuRight, Wrapper, UserPicture } from './styles'
+import { AuthContext } from '../../Context/auth'
+import { Link } from 'react-router-dom'
 
-const Header = ({autenticado}: IHeader) => {
+const Header = () => {
+  const {user, handleSignOut} = useContext(AuthContext);  
   return (
     <Wrapper>
         <Container>
             <Row>
-                <img src={logo} alt='logo DIO'/>
-                {autenticado ? (
+                <Link to="/clone-dio/">
+                    <img src={logo} alt='logo DIO'/>
+                </Link>
+                {user.id ? (
                     <>
                         <BuscarInputContainer>
                             <Input placeholder='Buscar...'/>
@@ -21,8 +25,11 @@ const Header = ({autenticado}: IHeader) => {
                 ) : null}
             </Row>
             <Row>
-                {autenticado ? (
-                    <UserPicture src='https://avatars.githubusercontent.com/u/73957555?v=4'/>
+                {user.id ? (
+                    <>
+                        <UserPicture src='https://avatars.githubusercontent.com/u/73957555?v=4'/>
+                        <a href="#" onClick={handleSignOut}>Sair</a>
+                    </>
                 ) : (
                     <>
                         <MenuRight href="#">Home</MenuRight>

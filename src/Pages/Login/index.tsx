@@ -6,9 +6,10 @@ import {Input} from '../../Components/Input/index'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup';
-import { api } from '../../Services/api'
+import { useContext } from 'react'
 import {Column, Container, CriarText, EsqueciText, Row, SubtitleLogin, Title, TitleLogin, Wrapper} from './styles'
 import { IFormData } from './types'
+import { AuthContext } from '../../Context/auth'
 
 const schema = yup.object({
     email: yup.string().email('Email não é válido').required('Campo obrigatório'),
@@ -16,7 +17,8 @@ const schema = yup.object({
 }).required();
 
 const Login = () =>{
-    const navigate = useNavigate();
+    const {handleLogin} = useContext(AuthContext);
+    const navigate = useNavigate()
 
     const handleClickSignUp = () =>{
         navigate('/clone-dio/SignUp')
@@ -28,17 +30,7 @@ const Login = () =>{
     })
 
     const onSubmit = async (formData: IFormData) => {
-        try{
-            const { data } = await api.get(`users?email=${formData.email}&senha=${formData.password}`);
-            if (data.length === 1){
-                navigate('/clone-dio/feed')
-            }else{
-                alert('Email ou senha, não correspondem')
-            }
-        }
-        catch{
-            alert('Houve algum erro, tente novamente')
-        }
+        handleLogin(formData);
     }
     
     return(
