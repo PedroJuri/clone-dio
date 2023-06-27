@@ -6,10 +6,9 @@ import {Input} from '../../Components/Input/index'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup';
-import { useContext } from 'react'
 import {Column, Container, CriarText, EsqueciText, Row, SubtitleLogin, Title, TitleLogin, Wrapper} from './styles'
 import { IFormData } from './types'
-import { AuthContext } from '../../Context/auth'
+import { useAuth } from '../../Hooks/useAuth'
 
 const schema = yup.object({
     email: yup.string().email('Email não é válido').required('Campo obrigatório'),
@@ -17,7 +16,7 @@ const schema = yup.object({
 }).required();
 
 const Login = () =>{
-    const {handleLogin} = useContext(AuthContext);
+    const {handleLogin} = useAuth();
     const navigate = useNavigate()
 
     const handleClickSignUp = () =>{

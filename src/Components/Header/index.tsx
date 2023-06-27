@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import logo from '../../Assets/logo-dio.png'
 import { Button } from '../Button'
 import { Container, Row, Input, BuscarInputContainer, Menu, MenuRight, Wrapper, UserPicture } from './styles'
-import { AuthContext } from '../../Context/auth'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../Hooks/useAuth'
 
 const Header = () => {
-  const {user, handleSignOut} = useContext(AuthContext);  
+  const {user, handleSignOut} = useAuth()
   return (
     <Wrapper>
         <Container>
